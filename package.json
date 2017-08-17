@@ -28,6 +28,7 @@
   "devDependencies": {},
   "dependencies": {
     "dotenv": "4.0.0",
+    "forever": "^0.15.3",
     "node-emoji": "^1.8.1",
     "snyk": "1.38.2",
     "twit": "2.2.9",
