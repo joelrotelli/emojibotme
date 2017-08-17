@@ -10,12 +10,9 @@
     "prepublish": "npm run snyk-protect",
     "deploy": "now -E"
   },
-  "now": {
-    "alias": "twitter-bot-bootstrap"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/spences10/twitter-bot-bootstrap.git"
+    "url": "git+https://gitlab.com/blootips/emojibotme.git"
   },
   "keywords": [
     "twitter",

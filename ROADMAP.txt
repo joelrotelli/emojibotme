@@ -1,0 +1,13 @@
+@TODO Constituer une base de données de mot clé => emoji aléatoire :
+Un fichier txt par theme ? vacances.txt :
+"vacances, plage, soleil, beach : emoji1, emoji2, emoji3, ..."
+
+> Chercher des tweet contenant des emoji et répondre par un autre emoji
+> Identifier les emoji : triste, heureux, et répondre en fonction (un autre émoji ou un lien, une citation, une image de chat etc...)
+
+
+...
+...
+
+idée pour plus tard : l'inverse :
+un fichier par client ? macdonald.txt : "si emoji hamburger, boisson, sandwich : poster un tweet sponsorisé"
