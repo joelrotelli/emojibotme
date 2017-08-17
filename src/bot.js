@@ -16,7 +16,10 @@ const followNewFollower = require('./api/followNewFollower')
 //setInterval(retweet, config.twitterConfig.retweet)
 
 replyToKeywords('vacances')
-setInterval(replyToKeywords, config.twitterConfig.reply)
+setInterval(replyToKeywords, config.twitterConfig.reply, 'vacances')
+
+replyToKeywords('holidays')
+setInterval(replyToKeywords, config.twitterConfig.reply, 'holidays')
 
 
 const userStream = bot.stream('user')

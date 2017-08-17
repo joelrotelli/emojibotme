@@ -17,8 +17,8 @@ console.log(keyword);
     'search/tweets',
     {
       q: keyword,
-      result_type: param.resultType,
-      lang: param.language,
+      result_type: 'recent',
+      //lang: param.language,
       filter: 'safe',
       count: param.searchCount
     },

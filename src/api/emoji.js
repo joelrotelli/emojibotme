@@ -10,7 +10,7 @@ const randomEmojiFromKeyword = (keyword) => {
       Un fichier txt par theme ? vacances.txt :
       "vacances, plage, soleil, beach : emoji1, emoji2, emoji3, ..."
   */
-  if(keyword == 'vacances'){
+  if(keyword == 'vacances' || keyword == 'holidays'){
     output = emoji.get('sunglasses');
   }
 
