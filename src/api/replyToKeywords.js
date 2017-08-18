@@ -1,13 +1,13 @@
 
 const Twit = require('twit')
 const unique = require('unique-random-array')
+const fs = require('fs');
 const config = require('../config')
 
 const param = config.twitterConfig
 
 const randomEmojiFromKeyword = require('./emoji')
-const randomKeyword = unique(param.keywordsList.split(';'))
-
+const randomKeyword =  unique(fs.readFileSync('src/data/keywords.txt').toString().split("\n"));
 
 const bot = new Twit(config.twitterKeys)
 
@@ -68,7 +68,7 @@ const replyToKeywords = () => {
 
         const responseTweet = '@' + user.screen_name + ' '+ emojiReply
 
-        if(debug === true){
+        if(debug == 'true'){
           console.log('debug')
           console.log(data.statuses[random])
           console.log(user)

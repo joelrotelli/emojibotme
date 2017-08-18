@@ -1,0 +1,3 @@
+Merci de me suivre @${screenName} !
+Bienvenue @${screenName} !
+Vous avez raison de me suivre @${screenName}, merci !
