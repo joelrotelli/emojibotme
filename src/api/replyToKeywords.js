@@ -69,7 +69,7 @@ const replyToKeywords = () => {
 
         const response = '@' + user.screen_name + ' '+ emojiReply
 
-        if(debug){
+        if(debug === true){
           //console.log(data.statuses[random])
           //console.log(user)
 
