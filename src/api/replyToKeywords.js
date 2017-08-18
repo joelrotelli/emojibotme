@@ -1,10 +1,8 @@
 const Twit = require('twit')
-const unique = require('unique-random-array')
 const config = require('../config')
 const randomEmojiFromKeyword = require('./emoji')
 
 const param = config.twitterConfig
-const randomReply = unique(param.randomReply.split('|'))
 
 const bot = new Twit(config.twitterKeys)
 
@@ -48,8 +46,7 @@ console.log(keyword);
         //console.log(user)
 
         const response = '@' + user.screen_name + ' '+ emojiReply
-        //console.log(response);
-        console.log( tweetId);
+        
         bot.post(
           'statuses/update',
           {
@@ -60,7 +57,7 @@ console.log(keyword);
             if (err) {
               console.log(err)
             } else {
-              console.log(response + ' tweeted to @' + user.screen_name)
+              console.log(response + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
             }
           }
         )

@@ -1,5 +1,6 @@
 
 const emoji = require('node-emoji')
+const unique = require('unique-random-array')
 
 // Return a random emoji from a keyword
 const randomEmojiFromKeyword = (keyword) => {
@@ -11,7 +12,8 @@ const randomEmojiFromKeyword = (keyword) => {
       "vacances, plage, soleil, beach : emoji1, emoji2, emoji3, ..."
   */
   if(keyword == 'vacances' || keyword == 'holidays'){
-    output = emoji.get('sunglasses');
+    const randomEmoji = unique(["sunglasses","dark_sunglasses", "beach_with_umbrella"])
+    output = emoji.get(randomEmoji())
   }
 
   return output
