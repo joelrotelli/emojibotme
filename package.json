@@ -19,16 +19,11 @@
     "bot",
     "bootstrap"
   ],
-  "author": "Scott Spence <spences10apps@gmail.com> (https://blog.scottspence.me/)",
+  "author": "Joël",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/spences10/twitter-bot-bootstrap/issues"
-  },
-  "homepage": "https://github.com/spences10/twitter-bot-bootstrap#readme",
   "devDependencies": {},
   "dependencies": {
     "dotenv": "4.0.0",
-    "forever": "^0.15.3",
     "node-emoji": "^1.8.1",
     "snyk": "1.38.2",
     "twit": "2.2.9",
