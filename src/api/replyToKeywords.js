@@ -50,7 +50,7 @@ const replyToKeywords = () => {
           return
         }
 
-        //console.log(data.statuses[random])
+        console.log(data.statuses[random].text)
         //console.log(user)
 
         const response = '@' + user.screen_name + ' '+ emojiReply

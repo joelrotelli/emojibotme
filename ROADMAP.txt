@@ -6,7 +6,9 @@ Un fichier txt par theme ? vacances.txt :
 > Identifier les emoji : triste, heureux, et répondre en fonction (un autre émoji ou un lien, une citation, une image de chat etc...)
 
 
-> Lire les 20 derniers tweets populaires
+> Lire les 20 derniers tweets populaires, chercher dans les tweets un mot clé que le bot connait, renvoyer un emoji
+  >> parser les tweets et chercher (if tweet contient un de ces mots clés : replyToKeywords)
+  >> stocker les mots clés dans un fichier txt plutot qu'un string dans env
 ...
 ...
 
