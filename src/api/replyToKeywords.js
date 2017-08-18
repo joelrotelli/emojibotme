@@ -11,6 +11,8 @@ const randomKeyword = unique(param.keywordsList.split(';'))
 
 const bot = new Twit(config.twitterKeys)
 
+const debug = config.debug
+
 
 // function: replies to a user from a keyword
 const replyToKeywords = () => {
@@ -34,15 +36,29 @@ const replyToKeywords = () => {
       } else {
         // grab tweet ID
         const random = Math.floor(Math.random() * param.searchCount) + 1
-        let tweetId
+        let tweetId, user
         try {
           tweetId = data.statuses[random].id_str
+
+          //If retweeted, get original tweet user
+          if(data.statuses[random].retweeted_status){
+            tweetId = data.statuses[random].retweeted_status.id_str
+            user = data.statuses[random].retweeted_status.user
+
+            console.log('retweeted ')
+            console.log(tweetId + ' au lieu de  ' + data.statuses[random].id_str)
+            console.log(user.screen_name + ' au lieu de  ' + data.statuses[random].user.screen_name)
+          }
+          else{
+            tweetId = data.statuses[random].id_str
+            user = data.statuses[random].user
+          }
+
         } catch (e) {
           console.log('ERRORDERP: Cannot assign tweetId')
           return
         }
 
-        const user = data.statuses[random].user
         const emojiReply = randomEmojiFromKeyword(keyword)
 
         if(!emojiReply){
@@ -50,26 +66,34 @@ const replyToKeywords = () => {
           return
         }
 
-        console.log(data.statuses[random].text)
-        //console.log(user)
 
         const response = '@' + user.screen_name + ' '+ emojiReply
-        console.log(response)
 
-        bot.post(
-          'statuses/update',
-          {
-            status : response,
-            in_reply_to_status_id: tweetId
-          },
-          (err, data, response) => {
-            if (err) {
-              console.log(err)
-            } else {
-              console.log(response + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
+        if(debug){
+          //console.log(data.statuses[random])
+          //console.log(user)
+
+          const response = '@' + user.screen_name + ' '+ emojiReply
+          console.log(response)
+        }
+        else{
+          bot.post(
+            'statuses/update',
+            {
+              status : response,
+              in_reply_to_status_id: tweetId
+            },
+            (err, data, response) => {
+              if (err) {
+                console.log(err)
+              } else {
+                console.log(response + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
+              }
             }
-          }
-        )
+          )
+        }
+
+
 
       }
     }

@@ -19,5 +19,6 @@ module.exports = {
     searchCount: process.env.TWITTER_SEARCH_COUNT,
     randomReply: process.env.RANDOM_REPLY,
     keywordsList: process.env.KEYWORDS_LIST
-  }
+  },
+  debug: process.env.DEBUG
 }
