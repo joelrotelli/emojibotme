@@ -23,6 +23,11 @@ const randomEmojiFromKeyword = (keyword) => {
       output = emoji.get(randomEmoji())
   }
 
+  if(keyword == 'peur'){
+    const randomEmoji = unique(["scream", "flushed", "worried", "pray", ])
+    output = emoji.get(randomEmoji())
+  }
+
 
   return output
 }
