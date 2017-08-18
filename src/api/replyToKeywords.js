@@ -21,6 +21,7 @@ const replyToKeywords = () => {
 
   console.log("keyword : " + keyword);
 
+ if(randomKeyword != ''){
   bot.get(
     'search/tweets',
     {
@@ -99,6 +100,8 @@ const replyToKeywords = () => {
       }
     }
   )
+
+}
 
 
 }
