@@ -23,7 +23,7 @@ const replyToKeywords = () => {
     'search/tweets',
     {
       q: keyword,
-      result_type: 'recent',
+      result_type: 'popular',
       //lang: param.language,
       filter: 'safe',
       count: param.searchCount
@@ -55,7 +55,7 @@ const replyToKeywords = () => {
 
         const response = '@' + user.screen_name + ' '+ emojiReply
         console.log(response)
-        
+
         bot.post(
           'statuses/update',
           {

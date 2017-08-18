@@ -6,6 +6,7 @@ Un fichier txt par theme ? vacances.txt :
 > Identifier les emoji : triste, heureux, et répondre en fonction (un autre émoji ou un lien, une citation, une image de chat etc...)
 
 
+> Lire les 20 derniers tweets populaires
 ...
 ...
 
