@@ -17,6 +17,7 @@ module.exports = {
     like: process.env.TWITTER_LIKE_RATE * 1000 * 60,
     quote: process.env.TWITTER_QUOTE_RATE * 1000 * 60,
     searchCount: process.env.TWITTER_SEARCH_COUNT,
-    randomReply: process.env.RANDOM_REPLY
+    randomReply: process.env.RANDOM_REPLY,
+    keywordsList: process.env.KEYWORDS_LIST
   }
 }

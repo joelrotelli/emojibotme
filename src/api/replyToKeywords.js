@@ -1,15 +1,23 @@
+
 const Twit = require('twit')
+const unique = require('unique-random-array')
 const config = require('../config')
-const randomEmojiFromKeyword = require('./emoji')
 
 const param = config.twitterConfig
+
+const randomEmojiFromKeyword = require('./emoji')
+const randomKeyword = unique(param.keywordsList.split(';'))
+
 
 const bot = new Twit(config.twitterKeys)
 
 
 // function: replies to a user from a keyword
-const replyToKeywords = (keyword) => {
-console.log(keyword);
+const replyToKeywords = () => {
+
+  const keyword = randomKeyword()
+
+  console.log("keyword : " + keyword);
 
   bot.get(
     'search/tweets',
@@ -46,6 +54,7 @@ console.log(keyword);
         //console.log(user)
 
         const response = '@' + user.screen_name + ' '+ emojiReply
+        console.log(response)
         
         bot.post(
           'statuses/update',
