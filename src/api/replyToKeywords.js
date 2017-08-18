@@ -23,7 +23,7 @@ const replyToKeywords = () => {
     'search/tweets',
     {
       q: keyword,
-      result_type: 'popular',
+      result_type: 'mixed',
       //lang: param.language,
       filter: 'safe',
       count: param.searchCount
