@@ -66,28 +66,27 @@ const replyToKeywords = () => {
           return
         }
 
-
-        const response = '@' + user.screen_name + ' '+ emojiReply
+        const responseTweet = '@' + user.screen_name + ' '+ emojiReply
 
         if(debug === true){
-          //console.log(data.statuses[random])
-          //console.log(user)
-
-          const response = '@' + user.screen_name + ' '+ emojiReply
-          console.log(response)
+          console.log('debug')
+          console.log(data.statuses[random])
+          console.log(user)
+          console.log(responseTweet)
         }
         else{
+          console.log('not debug');
           bot.post(
             'statuses/update',
             {
-              status : response,
+              status : responseTweet,
               in_reply_to_status_id: tweetId
             },
             (err, data, response) => {
               if (err) {
                 console.log(err)
               } else {
-                console.log(response + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
+                console.log(responseTweet + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
               }
             }
           )
