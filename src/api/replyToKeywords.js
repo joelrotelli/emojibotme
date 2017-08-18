@@ -21,7 +21,7 @@ const replyToKeywords = () => {
 
   console.log("keyword : " + keyword);
 
- if(randomKeyword != ''){
+ if(keyword){
   bot.get(
     'search/tweets',
     {
@@ -46,6 +46,7 @@ const replyToKeywords = () => {
             tweetId = data.statuses[random].retweeted_status.id_str
             user = data.statuses[random].retweeted_status.user
             text = data.statuses[random].retweeted_status.text
+            url = data.statuses[random].retweeted_status.url
 
             console.log('retweeted ')
             console.log(tweetId + ' au lieu de  ' + data.statuses[random].id_str)
@@ -69,11 +70,11 @@ const replyToKeywords = () => {
           return
         }
 
-        const responseTweet = emojiReply + ' RT @' + user.screen_name + ' '+ text
+        const responseTweet = emojiReply + ' RT @' + user.screen_name + ' https://twitter.com/'+user.screen_name+'/status/'+tweetId
 
         if(debug == 'true'){
           console.log('debug')
-          //console.log(data.statuses[random])
+          console.log(data.statuses[random])
           console.log(user)
           console.log(responseTweet)
         }
