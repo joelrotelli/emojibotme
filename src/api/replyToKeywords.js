@@ -44,6 +44,7 @@ const replyToKeywords = () => {
           if(data.statuses[random].retweeted_status){
             tweetId = data.statuses[random].retweeted_status.id_str
             user = data.statuses[random].retweeted_status.user
+            text = data.statuses[random].retweeted_status.text
 
             console.log('retweeted ')
             console.log(tweetId + ' au lieu de  ' + data.statuses[random].id_str)
@@ -52,6 +53,7 @@ const replyToKeywords = () => {
           else{
             tweetId = data.statuses[random].id_str
             user = data.statuses[random].user
+            text = data.statuses[random].text
           }
 
         } catch (e) {
@@ -66,11 +68,11 @@ const replyToKeywords = () => {
           return
         }
 
-        const responseTweet = '@' + user.screen_name + ' '+ emojiReply
+        const responseTweet = emojiReply + ' RT @' + user.screen_name + ' '+ text
 
         if(debug == 'true'){
           console.log('debug')
-          console.log(data.statuses[random])
+          //console.log(data.statuses[random])
           console.log(user)
           console.log(responseTweet)
         }
