@@ -70,7 +70,7 @@ const replyToKeywords = () => {
           return
         }
 
-        const responseTweet = emojiReply + ' RT @' + user.screen_name + ' https://twitter.com/'+user.screen_name+'/status/'+tweetId
+        const responseTweet = emojiReply + ' https://twitter.com/'+user.screen_name+'/status/'+tweetId
 
         if(debug == 'true'){
           console.log('debug')
