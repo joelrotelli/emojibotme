@@ -1,4 +1,3 @@
-
 const Twit = require('twit')
 const unique = require('unique-random-array')
 const fs = require('fs');
@@ -12,25 +11,47 @@ const emoji = require('node-emoji')
 const param = config.twitterConfig
 
 const randomEmojiFromKeyword = require('./emoji')
-const randomKeyword =  unique(fs.readFileSync('src/data/keywords.txt').toString().split("\n"));
 
 const bot = new Twit(config.twitterKeys)
 
 const debug = config.debug
 
+mongoose.connect('mongodb://localhost/emojibotme',
+  {
+    useMongoClient: true
+  }
+);
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+
+const emojiSchema = new mongoose.Schema({
+  name: String,
+  keywords: String
+});
+
+emojiSchema.plugin(mongooseRandom);
+
+const Emojis = mongoose.model('emojis', emojiSchema);
+
+
+
+const replyToKeywords = (event) => {
+  const randomKeyword = getKeywords(Emojis, getRandomKeyword, getReply);
+}
 
 // function: replies to a user from a keyword
-const replyToKeywords = () => {
+function getReply(randomKeyword){
 
-  const keyword = randomKeyword()
+  console.log("3. keyword : " + randomKeyword);
 
-  console.log("keyword : " + keyword);
-
- if(keyword){
+ if(randomKeyword){
+   console.log('looo')
   bot.get(
     'search/tweets',
     {
-      q: keyword,
+      q: randomKeyword,
       result_type: 'mixed',
       //lang: param.language,
       filter: 'safe',
@@ -67,33 +88,18 @@ const replyToKeywords = () => {
           return
         }
 
-        //TODO REPLACER TOUT CA DANS UN MODULE A PART : Probleme : wait for reponse de mongo...
-        mongoose.connect('mongodb://localhost/emojibotme',
-          {
-            useMongoClient: true
-          }
-        );
+        //TODO REPLACER TOUT CA DANS UN MODULE A PART : Probleme : wait for reponse de mongo : voir soluton asynchrone utilisée dans updateEmojiDB
 
-        const db = mongoose.connection;
-
-        db.on('error', console.error.bind(console, 'connection error:'));
 
 
         let output, randomEmoji
 
         db.once('open', function() {
 
-          const emojiSchema = new mongoose.Schema({
-            name: String
-          });
-
-          emojiSchema.plugin(mongooseRandom);
-
-          const Emojis = mongoose.model('emojis', emojiSchema);
-
-          Emojis.findOneRandom({"keywords" : { '$regex' : keyword }}, function(err, result) {
+          Emojis.findOneRandom({"keywords" : { '$regex' : randomKeyword }}, function(err, result) {
 
             if (!err) {
+              console.log('result ' + result); // 1 element
               emojiReply = emoji.get(result.name)
 
               if(!emojiReply){
@@ -142,6 +148,30 @@ const replyToKeywords = () => {
 }
 
 
+}
+
+
+
+function getKeywords(Schema, next1, next2){
+  let random
+  let keywords
+  var i = 0
+  Schema.find({}, function(err, results) {
+    console.log('find all')
+    if (!err) {
+      results.forEach(function(result){
+         keywords += ',' + result.keywords.split(';')
+      })
+console.log('1 : getKeywords')
+      next1(keywords, next2)
+    }
+  })
+}
+
+function getRandomKeyword(keywords, next){
+  const result = unique(keywords.split(','))
+console.log('2. randomKeyword to search : ' + result())
+  next(result())
 }
 
 module.exports = replyToKeywords

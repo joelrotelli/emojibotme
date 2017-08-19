@@ -11,6 +11,10 @@ pleure
 cry
 peur
 affraid
+pray
+sunrise
+beau temps
+grand soleil
 left right arrow
 arrow upper left
 arrow up down

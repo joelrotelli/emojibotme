@@ -47,7 +47,7 @@ db.once('open', function() {
 
 })
 
-
+//Fonction appelée initialement dans la boucle
 function getEmoji(schema, emojiName, next ) {
   schema.findOne({"name" : emojiName}, {safe:true}, function(err, result) {
     if (!err) {
@@ -61,6 +61,7 @@ function getEmoji(schema, emojiName, next ) {
 
 }
 
+//Fonction appelées en callback de getEmoji
 function insertEmoji(err, schema, emojiName) {
 
    //console.log('insert ' + emojiName);
