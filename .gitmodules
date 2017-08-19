@@ -1,0 +1,3 @@
+[submodule "src/emojis"]
+	path = src/emojis
+	url = https://github.com/omnidan/node-emoji.git

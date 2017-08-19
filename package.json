@@ -24,6 +24,9 @@
   "devDependencies": {},
   "dependencies": {
     "dotenv": "4.0.0",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.11.7",
+    "mongoose-simple-random": "^0.4.1",
     "node-emoji": "^1.8.1",
     "snyk": "1.38.2",
     "twit": "2.2.9",

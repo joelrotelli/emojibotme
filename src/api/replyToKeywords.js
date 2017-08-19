@@ -4,6 +4,11 @@ const unique = require('unique-random-array')
 const fs = require('fs');
 const config = require('../config')
 
+const mongo = require('mongodb')
+const mongoose = require('mongoose')
+const mongooseRandom = require('mongoose-simple-random')
+const emoji = require('node-emoji')
+
 const param = config.twitterConfig
 
 const randomEmojiFromKeyword = require('./emoji')
@@ -37,64 +42,96 @@ const replyToKeywords = () => {
       } else {
         // grab tweet ID
         const random = Math.floor(Math.random() * param.searchCount) + 1
-        let tweetId, user
+        let tweet, tweetId, user, text, url
         try {
+
           tweetId = data.statuses[random].id_str
 
-          //If retweeted, get original tweet user
+          //If retweeted, get original tweet
           if(data.statuses[random].retweeted_status){
-            tweetId = data.statuses[random].retweeted_status.id_str
-            user = data.statuses[random].retweeted_status.user
-            text = data.statuses[random].retweeted_status.text
-            url = data.statuses[random].retweeted_status.url
+            tweet = data.statuses[random].retweeted_status
 
             console.log('retweeted ')
-            console.log(tweetId + ' au lieu de  ' + data.statuses[random].id_str)
-            console.log(user.screen_name + ' au lieu de  ' + data.statuses[random].user.screen_name)
           }
           else{
-            tweetId = data.statuses[random].id_str
-            user = data.statuses[random].user
-            text = data.statuses[random].text
+            tweet = data.statuses[random]
           }
+
+          tweetId = tweet.id_str
+          user = tweet.user
+          text = tweet.text
+          url = tweet.url
 
         } catch (e) {
           console.log('ERRORDERP: Cannot assign tweetId')
           return
         }
 
-        const emojiReply = randomEmojiFromKeyword(keyword)
+        //TODO REPLACER TOUT CA DANS UN MODULE A PART : Probleme : wait for reponse de mongo...
+        mongoose.connect('mongodb://localhost/emojibotme',
+          {
+            useMongoClient: true
+          }
+        );
 
-        if(!emojiReply){
-          console.log('No emoji found')
-          return
-        }
+        const db = mongoose.connection;
 
-        const responseTweet = emojiReply + ' https://twitter.com/'+user.screen_name+'/status/'+tweetId
+        db.on('error', console.error.bind(console, 'connection error:'));
 
-        if(debug == 'true'){
-          console.log('debug')
-          console.log(data.statuses[random])
-          console.log(user)
-          console.log(responseTweet)
-        }
-        else{
-          console.log('not debug');
-          bot.post(
-            'statuses/update',
-            {
-              status : responseTweet,
-              in_reply_to_status_id: tweetId
-            },
-            (err, data, response) => {
-              if (err) {
-                console.log(err)
-              } else {
-                console.log(responseTweet + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
+
+        let output, randomEmoji
+
+        db.once('open', function() {
+
+          const emojiSchema = new mongoose.Schema({
+            name: String
+          });
+
+          emojiSchema.plugin(mongooseRandom);
+
+          const Emojis = mongoose.model('emojis', emojiSchema);
+
+          Emojis.findOneRandom({"keywords" : { '$regex' : keyword }}, function(err, result) {
+
+            if (!err) {
+              emojiReply = emoji.get(result.name)
+
+              if(!emojiReply){
+                console.log('No emoji found')
+                return
               }
+
+              const responseTweet = emojiReply + ' https://twitter.com/'+user.screen_name+'/status/'+tweetId
+
+              if(debug == 'true'){
+                console.log('debug')
+                //console.log(data.statuses[random])
+                //console.log(user)
+                console.log(responseTweet)
+              }
+              else{
+                console.log('not debug');
+                bot.post(
+                  'statuses/update',
+                  {
+                    status : responseTweet,
+                    in_reply_to_status_id: tweetId
+                  },
+                  (err, data, response) => {
+                    if (err) {
+                      console.log(err)
+                    } else {
+                      console.log(responseTweet + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
+                    }
+                  }
+                )
+              }
+
             }
-          )
-        }
+          });
+
+        });
+
 
 
 

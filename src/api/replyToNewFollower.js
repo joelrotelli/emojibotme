@@ -1,11 +1,15 @@
 const Twit = require('twit')
 const unique = require('unique-random-array')
+const fs = require('fs')
 const config = require('../config')
 
 const param = config.twitterConfig
-const randomReply = unique(param.randomReply.split(';'))
+const randomReply =  unique(fs.readFileSync('src/data/answersNewFollowers.txt').toString().split("\n"));
+
 
 const bot = new Twit(config.twitterKeys)
+
+
 
 // function: tweets back to user who followed
 function tweetNow(text) {
