@@ -3,7 +3,8 @@ const unique = require('unique-random-array')
 const config = require('../config')
 
 const param = config.twitterConfig
-const randomReply = unique(param.randomReply.split(';'))
+const randomReply =  unique(fs.readFileSync('src/data/answersNewFollovers.txt').toString().split("\n"));
+
 
 const bot = new Twit(config.twitterKeys)
 
