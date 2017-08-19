@@ -52,7 +52,7 @@ function getEmoji(schema, emojiName, next ) {
   schema.findOne({"name" : emojiName}, {safe:true}, function(err, result) {
     if (!err) {
       if(!result){
-        console.log('next insert ' + emojiName)
+        //console.log('next insert ' + emojiName)
 
         return next(err, schema, emojiName)
       }
@@ -63,11 +63,19 @@ function getEmoji(schema, emojiName, next ) {
 
 function insertEmoji(err, schema, emojiName) {
 
-   console.log('insert ' + emojiName);
+   //console.log('insert ' + emojiName);
+
+   let keyword = emojiName
+
+   if(emojiName.indexOf('flag-') === -1){
+     keyword = keyword.replace(/_/g, ' ')
+     keyword = keyword.replace(/-/g, ' ')
+   }
+
 
    var newEmojiData = {
      name: emojiName,
-     keywords: ''
+     keywords: keyword
    }
 
    var newEmoji = new schema(newEmojiData);
@@ -77,7 +85,7 @@ function insertEmoji(err, schema, emojiName) {
            console.log(error)
        }
        else{
-           console.log(emojiName + ' inserted')
+            console.log(keyword)
        }
    });
 
