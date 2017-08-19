@@ -23,7 +23,8 @@ let output, randomEmoji
 db.once('open', function() {
 
   const emojiSchema = new mongoose.Schema({
-    name: String
+    name: String,
+    keywords: String
   });
 
 
@@ -36,38 +37,8 @@ db.once('open', function() {
       names = names.constructor === Array ? names : [names];
       var emoji_char = emoji[key][0][0];
       for (var emojiName of names) {
-
+        //Check if emoji exist and insert if not
         getEmoji(Emojis, emojiName, insertEmoji);
-
-        //Insert if not exists
-        /*Emojis.findOne({"name" : emojiName}, {safe:true}, function(err, result) {
-          if (!err) {
-            if(!result){
-              console.log('insert ' + emojiName)
-
-              var newEmojiData = {
-                name: emojiName
-              }
-
-              var newEmoji = new Emojis(newEmojiData);
-
-              /*newEmoji.save( function(error, data){
-                  if(error){
-                      console.log(error)
-                  }
-                  else{
-                      console.log(emojiName + ' inserted')
-                  }
-              });
-            }
-          }
-          else{
-            console.log(err)
-          }
-
-
-        })
-        */
       }
     }
   }
@@ -95,7 +66,8 @@ function insertEmoji(err, schema, emojiName) {
    console.log('insert ' + emojiName);
 
    var newEmojiData = {
-     name: emojiName
+     name: emojiName,
+     keywords: ''
    }
 
    var newEmoji = new schema(newEmojiData);
