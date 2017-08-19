@@ -6,7 +6,7 @@ const config = require('../config')
 
 const mongo = require('mongodb')
 const mongoose = require('mongoose')
-const rmongooseRandom = require('mongoose-simple-random')
+const mongooseRandom = require('mongoose-simple-random')
 const emoji = require('node-emoji')
 
 const param = config.twitterConfig
@@ -87,7 +87,7 @@ const replyToKeywords = () => {
             name: String
           });
 
-          emojiSchema.plugin(rmongooseRandom);
+          emojiSchema.plugin(mongooseRandom);
 
           const Emojis = mongoose.model('emojis', emojiSchema);
 
