@@ -4,6 +4,11 @@ const unique = require('unique-random-array')
 const fs = require('fs');
 const config = require('../config')
 
+const mongo = require('mongodb')
+const mongoose = require('mongoose')
+const rmongooseRandom = require('mongoose-simple-random')
+const emoji = require('node-emoji')
+
 const param = config.twitterConfig
 
 const randomEmojiFromKeyword = require('./emoji')
@@ -62,38 +67,71 @@ const replyToKeywords = () => {
           return
         }
 
-        const emojiReply = randomEmojiFromKeyword(keyword)
+        //TODO REPLACER TOUT CA DANS UN MODULE A PART : Probleme : wait for reponse de mongo...
+        mongoose.connect('mongodb://localhost/emojibotme',
+          {
+            useMongoClient: true
+          }
+        );
 
-        if(!emojiReply){
-          console.log('No emoji found')
-          return
-        }
+        const db = mongoose.connection;
 
-        const responseTweet = emojiReply + ' https://twitter.com/'+user.screen_name+'/status/'+tweetId
+        db.on('error', console.error.bind(console, 'connection error:'));
 
-        if(debug == 'true'){
-          console.log('debug')
-          console.log(data.statuses[random])
-          console.log(user)
-          console.log(responseTweet)
-        }
-        else{
-          console.log('not debug');
-          bot.post(
-            'statuses/update',
-            {
-              status : responseTweet,
-              in_reply_to_status_id: tweetId
-            },
-            (err, data, response) => {
-              if (err) {
-                console.log(err)
-              } else {
-                console.log(responseTweet + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
+
+        let output, randomEmoji
+
+        db.once('open', function() {
+
+          const emojiSchema = new mongoose.Schema({
+            name: String
+          });
+
+          emojiSchema.plugin(rmongooseRandom);
+
+          const Emojis = mongoose.model('emojis', emojiSchema);
+
+          Emojis.findOneRandom({"keywords" : { '$regex' : keyword }}, function(err, result) {
+
+            if (!err) {
+              emojiReply = emoji.get(result.name)
+
+              if(!emojiReply){
+                console.log('No emoji found')
+                return
               }
+
+              const responseTweet = emojiReply + ' https://twitter.com/'+user.screen_name+'/status/'+tweetId
+
+              if(debug == 'true'){
+                console.log('debug')
+                //console.log(data.statuses[random])
+                //console.log(user)
+                console.log(responseTweet)
+              }
+              else{
+                console.log('not debug');
+                bot.post(
+                  'statuses/update',
+                  {
+                    status : responseTweet,
+                    in_reply_to_status_id: tweetId
+                  },
+                  (err, data, response) => {
+                    if (err) {
+                      console.log(err)
+                    } else {
+                      console.log(responseTweet + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
+                    }
+                  }
+                )
+              }
+
             }
-          )
-        }
+          });
+
+        });
+
 
 
 
