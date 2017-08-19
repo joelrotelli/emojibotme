@@ -37,26 +37,25 @@ const replyToKeywords = () => {
       } else {
         // grab tweet ID
         const random = Math.floor(Math.random() * param.searchCount) + 1
-        let tweetId, user
+        let tweet, tweetId, user, text, url
         try {
+
           tweetId = data.statuses[random].id_str
 
-          //If retweeted, get original tweet user
+          //If retweeted, get original tweet
           if(data.statuses[random].retweeted_status){
-            tweetId = data.statuses[random].retweeted_status.id_str
-            user = data.statuses[random].retweeted_status.user
-            text = data.statuses[random].retweeted_status.text
-            url = data.statuses[random].retweeted_status.url
+            tweet = data.statuses[random].retweeted_status
 
             console.log('retweeted ')
-            console.log(tweetId + ' au lieu de  ' + data.statuses[random].id_str)
-            console.log(user.screen_name + ' au lieu de  ' + data.statuses[random].user.screen_name)
           }
           else{
-            tweetId = data.statuses[random].id_str
-            user = data.statuses[random].user
-            text = data.statuses[random].text
+            tweet = data.statuses[random]
           }
+
+          tweetId = tweet.id_str
+          user = tweet.user
+          text = tweet.text
+          url = tweet.url
 
         } catch (e) {
           console.log('ERRORDERP: Cannot assign tweetId')
