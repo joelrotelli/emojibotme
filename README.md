@@ -11,5 +11,9 @@ node src/emojis/lib/emojiparse
 3. Mettre à jour la base de données mongo
 node src/api/updateEmojiDB.js   
 
-4. Copier les keywords obtenus dans keywords.txt
-==> A automatiser
+
+### Mettre en production
+prod.sh
+
+### Mettre à jour la base de données
+updatedb.sh
