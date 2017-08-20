@@ -5,6 +5,8 @@ const param = config.twitterConfig
 
 const bot = new Twit(config.twitterKeys)
 
+const follow = require('./follow')
+
 // function: replies to user who followed
 const followNewFollower = (event) => {
   // get user's twitter handler/screen name
@@ -13,18 +15,8 @@ const followNewFollower = (event) => {
   if (screenName === config.twitterConfig.username) {
     return
   }
-
-  bot.post('friendships/create', {
-    screen_name: screenName
-   }, (err, data, response) => {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log('@' + screenName + ' followed !')
-    }
-  })
-
-
+  
+  follow(screenName)
 }
 
 
