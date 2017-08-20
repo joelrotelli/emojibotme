@@ -20,7 +20,7 @@ const retweet = (tweetId) => {
       },
       (err, response) => {
         if (err) {
-          console.log('ERRORDERP: Retweet!')
+          console.log(err)
         }
         console.log('SUCCESS: RT: ' ,  tweetId)
       }

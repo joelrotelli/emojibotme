@@ -10,6 +10,10 @@ const emoji = require('node-emoji')
 
 const retweet = require('./retweet')
 
+const favorite = require('./favorite')
+
+const follow = require('./follow')
+
 const param = config.twitterConfig
 
 const randomEmojiFromKeyword = require('./emoji')
@@ -60,7 +64,7 @@ function getReply(randomKeyword){
     },
     (err, data, response) => {
       if (err) {
-        console.log('ERRORDERP: Cannot Search Tweet!, Description here: ', err)
+        console.log('Cannot Search Tweet!, Description here: ', err)
       } else {
         // grab tweet ID
         const random = Math.floor(Math.random() * param.searchCount) + 1
@@ -85,7 +89,7 @@ function getReply(randomKeyword){
           url = tweet.url
 
         } catch (e) {
-          console.log('ERRORDERP: Cannot assign tweetId')
+          console.log('No tweet found')
           return
         }
 
@@ -120,7 +124,8 @@ function getReply(randomKeyword){
               else{
                 console.log('not debug');
 
-                retweet(tweetId)
+                favorite(tweetId)
+                follow(user.screen_name)
 
                 bot.post(
                   'statuses/update',
