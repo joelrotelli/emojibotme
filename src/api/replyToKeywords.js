@@ -92,11 +92,11 @@ function getReply(randomKeyword){
         //TODO REPLACER TOUT CA DANS UN MODULE A PART : Probleme : wait for reponse de mongo : voir soluton asynchrone utilisée dans updateEmojiDB
 
 
-
         let output, randomEmoji
 
-        db.once('open', function() {
+        //db.once('open', function() {
 
+          console.log('laa', randomKeyword)
           Emojis.findOneRandom({"keywords" : { '$regex' : randomKeyword }}, function(err, result) {
 
             if (!err) {
@@ -141,7 +141,7 @@ function getReply(randomKeyword){
             }
           });
 
-        });
+        //});
 
 
 
