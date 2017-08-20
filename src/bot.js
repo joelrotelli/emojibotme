@@ -11,9 +11,6 @@ const replyToNewFollower = require('./api/replyToNewFollower')
 const replyToKeywords = require('./api/replyToKeywords')
 const followNewFollower = require('./api/followNewFollower')
 
-// retweet on keywords
-//retweet()
-//setInterval(retweet, config.twitterConfig.retweet)
 
 replyToKeywords()
 setInterval(replyToKeywords, config.twitterConfig.reply)

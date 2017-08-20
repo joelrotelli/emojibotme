@@ -8,6 +8,8 @@ const mongoose = require('mongoose')
 const mongooseRandom = require('mongoose-simple-random')
 const emoji = require('node-emoji')
 
+const retweet = require('./retweet')
+
 const param = config.twitterConfig
 
 const randomEmojiFromKeyword = require('./emoji')
@@ -38,7 +40,7 @@ const Emojis = mongoose.model('emojis', emojiSchema);
 
 
 const replyToKeywords = (event) => {
-  const randomKeyword = getKeywords(Emojis, getRandomKeyword, getReply);
+  getRandomKeyword(Emojis, getReply);
 }
 
 // function: replies to a user from a keyword
@@ -47,7 +49,6 @@ function getReply(randomKeyword){
   console.log("3. keyword : " + randomKeyword);
 
  if(randomKeyword){
-   console.log('looo')
   bot.get(
     'search/tweets',
     {
@@ -114,9 +115,13 @@ function getReply(randomKeyword){
                 //console.log(data.statuses[random])
                 //console.log(user)
                 console.log(responseTweet)
+                retweet(tweetId)
               }
               else{
                 console.log('not debug');
+
+                retweet(tweetId)
+
                 bot.post(
                   'statuses/update',
                   {
@@ -151,27 +156,25 @@ function getReply(randomKeyword){
 }
 
 
+//Get a random keyword from all keywobrds in emojis collection (for search)
+function getRandomKeyword(Schema, next){
+  console.log('1. getRandomKeyword')
 
-function getKeywords(Schema, next1, next2){
   let random
   let keywords
   var i = 0
   Schema.find({}, function(err, results) {
-    console.log('find all')
     if (!err) {
       results.forEach(function(result){
          keywords += ',' + result.keywords.split(';')
       })
-console.log('1 : getKeywords')
-      next1(keywords, next2)
+
+      random = unique(keywords.split(','))()
+      console.log('2. random search : ', random)
+      next(random)
     }
   })
 }
 
-function getRandomKeyword(keywords, next){
-  const result = unique(keywords.split(','))
-console.log('2. randomKeyword to search : ' + result())
-  next(result())
-}
 
 module.exports = replyToKeywords
