@@ -9,6 +9,7 @@ const emoji = require('node-emoji')
 const retweet = require('./retweet')
 const favorite = require('./favorite')
 const follow = require('./follow')
+const tweet = require('./tweet')
 const randomEmojiFromKeyword = require('./emoji')
 const param = config.twitterConfig
 const bot = new Twit(config.twitterKeys)
