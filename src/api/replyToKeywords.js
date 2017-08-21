@@ -8,6 +8,7 @@ const mongooseRandom = require('mongoose-simple-random')
 const emoji = require('node-emoji')
 const retweet = require('./retweet')
 const favorite = require('./favorite')
+const tweetnow = require('./tweet')
 const follow = require('./follow')
 const tweet = require('./tweet')
 const randomEmojiFromKeyword = require('./emoji')
@@ -111,20 +112,7 @@ const replyToKeywords = (event) => {
 
               favorite(tweetId)
               follow(user.screen_name)
-              bot.post(
-                'statuses/update',
-                {
-                  status : responseTweet,
-                  in_reply_to_status_id: tweetId
-                },
-                (err, data, response) => {
-                  if (err) {
-                    console.log(err)
-                  } else {
-                    console.log(responseTweet + '(tweetId : '+ tweetId +')')
-                  }
-                }
-              )
+              tweetnow(responseTweet, tweetId)
 
             }
 

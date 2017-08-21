@@ -7,14 +7,14 @@ const bot = new Twit(config.twitterKeys)
 
 const debug = config.debug
 
-const tweet = (action, text, tweetId) => {
+const tweetnow = (text, tweetId) => {
 
   if(debug == 'true'){
     console.log('Tweet : ' + text  + '(tweetId : '+ tweetId +')')
   }
   else{
     bot.post(
-      action,
+      'statuses/update',
       {
         status : text,
         in_reply_to_status_id: tweetId
@@ -28,9 +28,6 @@ const tweet = (action, text, tweetId) => {
       }
     )
   }
-
-
-
 }
 
-module.exports = tweet
+module.exports = tweetnow
