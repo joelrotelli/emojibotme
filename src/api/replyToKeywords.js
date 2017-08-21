@@ -130,7 +130,20 @@ function getReply(randomKeyword){
 
                 favorite(tweetId)
                 follow(user.screen_name)
-                tweet('statuses/update', responseTweet, tweetId)
+                bot.post(
+                  'statuses/update',
+                  {
+                    status : responseTweet,
+                    in_reply_to_status_id: tweetId
+                  },
+                  (err, data, response) => {
+                    if (err) {
+                      console.log(err)
+                    } else {
+                      console.log(responseTweet + '(tweetId : '+ tweetId +')')
+                    }
+                  }
+                )
 
               }
 
