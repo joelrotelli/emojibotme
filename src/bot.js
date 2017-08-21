@@ -15,13 +15,10 @@ const followNewFollower = require('./api/followNewFollower')
 replyToKeywords()
 setInterval(replyToKeywords, config.twitterConfig.reply)
 
-
 const userStream = bot.stream('user')
-
 
 //Follow a new follower
 userStream.on('follow', followNewFollower)
-
 
 // reply to new follower
 userStream.on('follow', replyToNewFollower)

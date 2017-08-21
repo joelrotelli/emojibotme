@@ -105,6 +105,8 @@ function getReply(randomKeyword){
                 return
               }
 
+
+              //Randomly reply or quote
               var randomBool = Math.random()<.5
               let responseTweet
 
