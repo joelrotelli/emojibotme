@@ -47,6 +47,5 @@ db
 # production
 /build
 
-prod.sh
-
 db
+*.sh

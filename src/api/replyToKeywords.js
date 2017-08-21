@@ -2,24 +2,16 @@ const Twit = require('twit')
 const unique = require('unique-random-array')
 const fs = require('fs');
 const config = require('../config')
-
 const mongo = require('mongodb')
 const mongoose = require('mongoose')
 const mongooseRandom = require('mongoose-simple-random')
 const emoji = require('node-emoji')
-
 const retweet = require('./retweet')
-
 const favorite = require('./favorite')
-
 const follow = require('./follow')
-
-const param = config.twitterConfig
-
 const randomEmojiFromKeyword = require('./emoji')
-
+const param = config.twitterConfig
 const bot = new Twit(config.twitterKeys)
-
 const debug = config.debug
 
 mongoose.connect('mongodb://localhost/emojibotme',
@@ -42,8 +34,9 @@ emojiSchema.plugin(mongooseRandom);
 const Emojis = mongoose.model('emojis', emojiSchema);
 
 
-
+//Call functions
 const replyToKeywords = (event) => {
+  //First : getRandomKeyword then getReply
   getRandomKeyword(Emojis, getReply);
 }
 
@@ -89,7 +82,7 @@ function getReply(randomKeyword){
           url = tweet.url
 
         } catch (e) {
-          console.log('No tweet found')
+          console.log('No tweet found :(')
           return
         }
 
@@ -100,7 +93,6 @@ function getReply(randomKeyword){
 
         //db.once('open', function() {
 
-          console.log('laa', randomKeyword)
           Emojis.findOneRandom({"keywords" : { '$regex' : randomKeyword }}, function(err, result) {
 
             if (!err) {
@@ -112,35 +104,33 @@ function getReply(randomKeyword){
                 return
               }
 
-              const responseTweet = emojiReply + ' https://twitter.com/'+user.screen_name+'/status/'+tweetId
+              var randomBool = Math.random()<.5
+              let responseTweet
+
+              if(randomBool === true){
+                responseTweet = emojiReply + ' https://twitter.com/'+user.screen_name+'/status/'+tweetId
+              }
+              else{
+                responseTweet = '@' + user.screen_name + ' '+ emojiReply
+              }
+
+
 
               if(debug == 'true'){
                 console.log('debug')
                 //console.log(data.statuses[random])
                 //console.log(user)
-                console.log(responseTweet)
-                retweet(tweetId)
+                console.log("Tweet : " + text)
+                console.log("Response : " + responseTweet)
+
               }
               else{
                 console.log('not debug');
 
                 favorite(tweetId)
                 follow(user.screen_name)
+                tweet('statuses/update', responseTweet, tweetId)
 
-                bot.post(
-                  'statuses/update',
-                  {
-                    status : responseTweet,
-                    in_reply_to_status_id: tweetId
-                  },
-                  (err, data, response) => {
-                    if (err) {
-                      console.log(err)
-                    } else {
-                      console.log(responseTweet + ' tweeted to @' + user.screen_name + '(tweetId : '+ tweetId +')')
-                    }
-                  }
-                )
               }
 
             }
