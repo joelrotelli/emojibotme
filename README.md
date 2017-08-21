@@ -10,10 +10,3 @@ node src/emojis/lib/emojiparse
 
 3. Mettre à jour la base de données mongo
 node src/api/updateEmojiDB.js   
-
-
-### Mettre en production
-prod.sh
-
-### Mettre à jour la base de données
-updatedb.sh
