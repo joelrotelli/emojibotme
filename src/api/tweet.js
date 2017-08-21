@@ -7,7 +7,7 @@ const bot = new Twit(config.twitterKeys)
 
 const debug = config.debug
 
-const follow = (action, text, tweetId) => {
+const tweet = (action, text, tweetId) => {
 
   if(debug == 'true'){
     console.log('Tweet : ' + text  + '(tweetId : '+ tweetId +')')
@@ -33,4 +33,4 @@ const follow = (action, text, tweetId) => {
 
 }
 
-module.exports = follow
+module.exports = tweet
