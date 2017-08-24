@@ -1,4 +1,5 @@
 
+> Parser chaque mot du tweet => Pour chaque mot, aller chercher un emoji. Concaténer pour créer le tweet.
 
 > Chercher des tweet contenant des emoji et répondre par un autre emoji
 > Identifier les emoji : triste, heureux, et répondre en fonction (un autre émoji ou un lien, une citation, une image de chat etc...)
