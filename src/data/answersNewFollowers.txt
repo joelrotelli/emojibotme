@@ -1,3 +1,8 @@
+Hello @${screenName} !
+Welcome @${screenName} !
+Thanks for following me @${screenName} !
 Merci de me suivre @${screenName} !
 Bienvenue @${screenName} !
-Vous avez raison de me suivre @${screenName}, merci !
+Enchanté @${screenName} !
+Hi @${screenName} !
+Welcome aboard @${screenName} !
